@@ -1,10 +1,13 @@
 <?php
 
-require_once 'ftp.class.php';
+use FtpPhp\Ftp;
+spl_autoload_register(function($className){
+    require_once str_replace(array('\\','_'),array('/'),$className).'.php';
+});
 
 
 try {
-	$ftp = new Ftp;
+	$ftp = new Ftp();
 
 	// Opens an FTP connection to the specified host
 	$ftp->connect('ftp.ed.ac.uk');
@@ -21,6 +24,6 @@ try {
 	fseek($temp, 0);
 	fpassthru($temp);
 
-} catch (FtpException $e) {
+} catch (\Exception $e) {
 	echo 'Error: ', $e->getMessage();
 }

@@ -1,5 +1,7 @@
 FTP for PHP (c) David Grudl, 2008 (http://davidgrudl.com)
 
+* namespaces by Kinn Coelho Julião<kinncj@kinncj.com.br> and Leandro Leite <leandro@leandroleite.info>
+
 
 Introduction
 ------------
@@ -7,21 +9,24 @@ Introduction
 FTP for PHP is a very small and easy-to-use library for accessing FTP servers.
 
 
-Project at GoogleCode: http://ftp-php.googlecode.com
-My PHP blog: http://phpfashion.com
+Project at github: http://github.com/kinncj/ftp-php
+David PHP blog: http://phpfashion.com
 
 
 Requirements
 ------------
-- PHP (version 5 or better)
+- PHP (version 5.3 or better)
 
 
 Usage
 -----
 
 Opens an FTP connection to the specified host:
-
-	$ftp = new Ftp;
+    use FtpPhp\Ftp;
+    spl_autoload_register(function($className){
+        require_once str_replace(array('\\','_'),array('/'),$className).'.php';
+    });
+	$ftp = new Ftp();
 	$ftp->connect($host);
 
 Login with username and password
@@ -45,7 +50,7 @@ Ftp throws exception if operation failed. So you can simply do following:
 		$ftp->login($username, $password);
 		$ftp->put($destination_file, $source_file, FTP_BINARY);
 
-	} catch (FtpException $e) {
+	} catch (\Exception $e) {
 		echo 'Error: ', $e->getMessage();
 	}
 
